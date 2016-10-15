@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Robot Rumble Barcode Generator</title>
+    <meta charset="UTF-8">
+</head>
+ <body onload="draw();">
+
+<script type="text/javascript">
+    function draw(inputcode) {
+        var canvas = document.getElementById('canvas');
+        if (canvas.getContext) {
+            var ctx = canvas.getContext('2d');
+            var code = inputcode.replace(/ /g, '');
+
+            ctx.fillStyle = "black";
+            ctx.fillRect(0,0,800,100);
+            // 0 white stripe - black strip width 5, plus white strip width 9
+            // 1 black stripe - black strip width 11, plus white strip width 2 or 3?
+            // 2 white/black stripe - black strip width = 8, plus white strip width = 6
+
+            var x = 50;
+            for (var i = 0, len = code.length; i < len; i++) {
+                if (code[i] == '0') {
+                    // white stripe
+                    ctx.fillStyle = "white";
+                    ctx.fillRect(x+5,0,9,100);
+                    x = x+14;
+                } else if (code[i] == '1') {
+                    // black stripe with thin white strip after it
+                    ctx.fillStyle = "white";
+                    ctx.fillRect(x+11,0,2,100);
+                    x = x+13;
+                } else if (code[i] == '2') {
+                    ctx.fillStyle = "white";
+                    ctx.fillRect(x+8,0,6,100);
+                    x = x+14;
+                } else {
+                    alert("invalid character " + code[i] + " found. Code can only have 0,1,2 in")
+                }
+            }
+
+            return false;
+        }
+    }
+</script>
+
+<form onsubmit="return draw(document.getElementById('code').value);">
+    Type Code:<br>
+    <!-- pre-seeded for testing, bitor laser defence 3 -->
+    <input type="text" name="code" id="code" value="0 1 1 0 1 0 1 2 0 0 1 1 1 2 0 0 1 1 2 0 1 0 1 0 2"><br>
+    <!--<input type="text" name="code" id="code"><br>-->
+    <input type="submit" value="Submit">
+</form>
+
+<canvas id="canvas" width="800" height="100"></canvas>
+
+</body>
+</html>
