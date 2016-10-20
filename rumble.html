@@ -9,12 +9,14 @@
 <body>
 
 <script type="text/javascript">
-    function draw(inputcode) {
+    function draw(inputcode, description) {
         var canvas = document.getElementById('canvas');
         if (canvas.getContext) {
             var ctx = canvas.getContext('2d');
             var code = inputcode.replace(/ /g, '');
 
+            ctx.fillStyle = "white";
+            ctx.fillRect(0,0,800,200);
             ctx.fillStyle = "black";
             ctx.fillRect(0,0,800,100);
             // 0 white stripe - black strip width 5, plus white strip width 9
@@ -42,20 +44,26 @@
                 }
             }
 
+            ctx.fillStyle = "black";
+            ctx.font="40px Arial";
+            ctx.fillText(description,30,150);
+
             return false;
         }
     }
 </script>
 
-<form onsubmit="return draw(document.getElementById('code').value);">
-    Type Code:<br>
+<form onsubmit="return draw(document.getElementById('code').value, document.getElementById('desc').value);">
+    Code:
     <!-- pre-seeded for testing, bitor laser defence 3 -->
-    <input type="text" name="code" id="code" value="0 1 1 0 1 0 1 2 0 0 1 1 1 2 0 0 1 1 2 0 1 0 1 0 2"><br>
-    <!--<input type="text" name="code" id="code"><br>-->
+    <!--<input type="text" name="code" id="code" value="0 1 1 0 1 0 1 2 0 0 1 1 1 2 0 0 1 1 2 0 1 0 1 0 2"><br>-->
+    <input type="text" name="code" id="code"><br>
+    Description:
+    <input type="text" name="desc" id="desc"><br>
     <input type="submit" value="Submit">
 </form>
 
-<canvas id="canvas" width="800" height="100"></canvas>
+<canvas id="canvas" width="800" height="200"></canvas>
 
 </body>
 </html>
